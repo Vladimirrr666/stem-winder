@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    .clock {
+        width: 600px;
+        height: 600px;
+        margin: 100px auto;
+        background: url(images/clock.jpg) no-repeat;
+        position: relative;
+    }
+
+    .clock div {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url(images/hour.png) no-repeat center center;
+    }
+
+    #m {
+        background-image: url(images/minute.png);
+    }
+
+    #s {
+        background-image: url(images/second.png);
+        /*让盒子旋转*/
+        /*transform: rotate(30deg);*/
+    }
+</style>
+
+<body>
+    <div class="clock">
+        <div id="h"></div>
+        <div id="m"></div>
+        <div id="s"></div>
+    </div>
+
+    <script>
+        //根据当前时间，设置转动的角度
+        var h = document.getElementById("h");
+        var m = document.getElementById("m");
+        var s = document.getElementById("s");
+        setTime();
+
+
+        //有动画： 25份
+        //细腻：   60份 （肉眼识别不出来了）
+        setInterval(function () {
+            setTime();
+        }, 15);
+
+
+        function setTime() {
+            //把当前时间显示出来
+            var date = new Date();
+            //1. 获取秒钟，计算秒钟转动角度。 加上毫秒部分
+            //秒钟  60s = 360deg  1s = 6deg
+            var seconds = date.getSeconds() + date.getMilliseconds() / 1000;
+            s.style.transform = "rotate(" + 6 * seconds + "deg)";
+
+            //2. 获取分钟，计算分钟转动的角度, 需要加上秒钟的那部分
+            //分钟  60分钟 = 360deg   1 = 6deg
+            var minutes = date.getMinutes() + seconds / 60;
+            m.style.transform = "rotate(" + 6 * minutes + "deg)";
+
+            //3. 获取当前的小时,需要加上分钟的那一部分
+            var hours = date.getHours() + minutes / 60;
+            // 根据小时计算了小时需要转动的角度
+            h.style.transform = "rotate(" + 30 * hours + "deg)";
+
+        }
+    </script>
+</body>
+
+</html>
